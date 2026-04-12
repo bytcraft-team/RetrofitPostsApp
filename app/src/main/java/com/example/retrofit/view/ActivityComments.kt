@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofit.R
 import com.example.retrofit.adapter.CommentAdapter
+import com.example.retrofit.viewModel.CommentViewModel
 import com.example.retrofit.viewModel.PostViewModel
 
 class ActivityComments : AppCompatActivity() {
-    val viewModel: PostViewModel by viewModels()
+
+    val viewModelComment : CommentViewModel by viewModels()
     lateinit var adapter : CommentAdapter
 
 
@@ -30,11 +32,11 @@ class ActivityComments : AppCompatActivity() {
         Log.d("POST_ID", "postId = $postId")
 
         if (postId != 0) {
-            viewModel.fetchCommetById(postId)
+            viewModelComment.fetchCommentsByPost(postId)
         }
 
 
-        viewModel.comments.observe(this) { comments ->
+        viewModelComment.comments.observe(this) { comments ->
             adapter.updateData(comments)
 
             }

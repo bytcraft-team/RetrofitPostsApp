@@ -3,6 +3,7 @@ package com.example.retrofit.view
 import android.os.Bundle
 import android.widget.*
 import androidx.activity.viewModels
+
 import androidx.appcompat.app.AppCompatActivity
 import com.example.retrofit.R
 import com.example.retrofit.model.Post

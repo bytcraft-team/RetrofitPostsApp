@@ -26,17 +26,10 @@ class PostRepository {
         }
     }
 
-    suspend fun getCommentById(postId: Int): MutableList<Comment>? {
-        return try {
-            apiService.getCommentById(postId)
-        } catch (e: Exception) {
-            null
-        }
-    }
 
     suspend fun addPost(post: Post): Post? {
         return try {
-            val response = RetrofitClient.instance.addPost(post)
+            val response = apiService.addPost(post)
 
             if (response.isSuccessful) {
                 response.body()
@@ -45,6 +38,19 @@ class PostRepository {
             }
 
         } catch (e: Exception) {
+            null
+        }
+    }
+
+    suspend fun updatePost(postId: Int, post: Post) : Post?{
+        return try {
+            val response = apiService.updatePost(postId,post)
+            if(response.isSuccessful){
+                response.body()
+            }else{
+                null
+            }
+        }catch (e: Exception){
             null
         }
     }

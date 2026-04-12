@@ -33,12 +33,6 @@ class PostViewModel : ViewModel() {
     private val _comments = MutableLiveData<List<Comment>>()
     val comments : LiveData<List<Comment>> = _comments
 
-    fun fetchCommetById(postId: Int){
-        viewModelScope.launch {
-            _comments.value = repository.getCommentById(postId) ?: emptyList()
-        }
-    }
-
     private val _createdPost = MutableLiveData<Post?>()
     val createdPost: LiveData<Post?> = _createdPost
 
