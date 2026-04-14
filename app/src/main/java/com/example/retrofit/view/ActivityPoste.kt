@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -55,15 +56,37 @@ class ActivityPoste : AppCompatActivity() {
         }
 
 
-        textPosts.layoutManager = LinearLayoutManager(this)
         btnPosts.setOnClickListener {
             viewModel.fetchPosts()
         }
         viewModel.posts.observe(this){posts ->
-            textPosts.adapter = PostAdapter(posts)
+          val listPosts = posts ?: emptyList()
 
-
+          textPosts.adapter = PostAdapter (
+              listPosts ,
+              onDeleteClick = {post ->
+                  viewModel.deletePost(post.id ?: 0)
+              },
+              onUpdateClick = {post ->
+                  val intent = Intent(this , ActivityFormPost::class.java)
+                  intent.putExtra("id" , post.id)
+                  intent.putExtra("title" , post.title)
+                  intent.putExtra("body" , post.body)
+                  startActivity(intent)
+              }
+          )
         }
+
+        viewModel.deletePost.observe(this){success ->
+            if(success){
+                Toast.makeText(this, "le poste supprimer avec succee " , Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Erreur de suppression " , Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
+
 
 
         textPost.setOnClickListener {

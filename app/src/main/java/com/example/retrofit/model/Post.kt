@@ -5,4 +5,4 @@ data class Post (
         val title : String ,
         val body : String,
         val id : Int? = null,
-        )
+        ) : java.io.Serializable

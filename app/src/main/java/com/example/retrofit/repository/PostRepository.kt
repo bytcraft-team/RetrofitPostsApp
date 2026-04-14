@@ -1,5 +1,6 @@
 package com.example.retrofit.repository
 
+import android.util.Log
 import com.example.retrofit.model.Post
 import com.example.retrofit.service.RetrofitClient
 
@@ -56,10 +57,12 @@ class PostRepository {
 
     suspend fun deletePost(id : Int) : Boolean{
            return try {
-               apiService.deletePost(id)
+               val response = apiService.deletePost(id)
+               response.isSuccessful
                true
 
            }catch (e : Exception){
+               Log.d("Erreur : " , "${e.message}.")
                false
            }
 

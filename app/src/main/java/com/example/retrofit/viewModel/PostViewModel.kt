@@ -1,5 +1,6 @@
 package com.example.retrofit.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,17 +12,14 @@ import kotlinx.coroutines.launch
 
 class PostViewModel : ViewModel() {
     private val repository = PostRepository()
-    private val _posts = MutableLiveData<List<Post>?>()
+    private val _posts = MutableLiveData<List<Post>>()
     val posts : LiveData<List<Post>?> = _posts
 
     fun fetchPosts() {
         viewModelScope.launch {
+
             val result = repository.getPosts()
-            if(result != null){
-            _posts.value =  result
-        }else{
-            _posts.value = emptyList()
-            }
+            _posts.value = result ?: emptyList()
         }
     }
 
@@ -55,7 +53,21 @@ class PostViewModel : ViewModel() {
 
     fun updatePost(id : Int , post : Post) {
         viewModelScope.launch {
-            _updatPost.value = repository.updatePost(id , post)
+            val result = repository.updatePost(id , post)
+
+            if(result != null ){
+                val list = _posts.value?.toMutableList() ?: mutableListOf()
+                val index = list.indexOfFirst { it.id == id  }
+
+                if(index != -1){
+                    list[index] = result
+
+                    _posts.value = list
+                }
+
+                _updatPost.value = result
+
+            }
         }
     }
 
@@ -64,7 +76,20 @@ class PostViewModel : ViewModel() {
 
     fun deletePost(id : Int){
         viewModelScope.launch {
-            _deletePost.value = repository.deletePost(id)
+            val result = repository.deletePost(id)
+            if(result){
+                val list = _posts.value?.toMutableList() ?: mutableListOf()
+
+                list.removeIf { it.id == id }
+
+                _posts.value = list
+
+                _deletePost.value = true
+
+            }else{
+                _deletePost.value = false
+
+            }
         }
     }
 

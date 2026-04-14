@@ -28,6 +28,6 @@ interface ApiService {
     suspend fun updatePost(@Path ("id") id: Int , @Body post : Post) : Response<Post>
 
     @DELETE("posts/{id}")
-    suspend fun deletePost(@Path("id") id: Int)
+    suspend fun deletePost(@Path("id") id: Int) : Response<Unit>
 }
 

@@ -24,8 +24,7 @@ class ActivityComments : AppCompatActivity() {
 
         recycler.layoutManager = LinearLayoutManager(this)
 
-        adapter = CommentAdapter(emptyList())
-        recycler.adapter = adapter
+
 
         val postId = intent.getIntExtra("postId", 0)
         Log.d("POST_ID", "postId = $postId")
@@ -36,7 +35,7 @@ class ActivityComments : AppCompatActivity() {
 
 
         viewModelComment.comments.observe(this) { comments ->
-            adapter.updateData(comments)
+            recycler.adapter = CommentAdapter(comments)
 
             }
         }
