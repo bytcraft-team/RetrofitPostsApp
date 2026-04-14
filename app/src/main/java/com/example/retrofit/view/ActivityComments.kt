@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofit.R
 import com.example.retrofit.adapter.CommentAdapter
 import com.example.retrofit.viewModel.CommentViewModel
-import com.example.retrofit.viewModel.PostViewModel
 
 class ActivityComments : AppCompatActivity() {
 

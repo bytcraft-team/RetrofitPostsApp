@@ -4,6 +4,7 @@ import com.example.retrofit.model.Comment
 import com.example.retrofit.model.Post
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -24,6 +25,9 @@ interface ApiService {
     suspend fun addPost(@Body post : Post) : Response<Post>
 
     @PUT("posts/{id}")
-    suspend fun updatePost(@Path ("id") postId: Int , @Body post : Post) : Response<Post>
+    suspend fun updatePost(@Path ("id") id: Int , @Body post : Post) : Response<Post>
+
+    @DELETE("posts/{id}")
+    suspend fun deletePost(@Path("id") id: Int)
 }
 

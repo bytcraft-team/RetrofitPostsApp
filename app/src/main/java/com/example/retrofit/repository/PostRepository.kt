@@ -1,6 +1,5 @@
 package com.example.retrofit.repository
 
-import com.example.retrofit.model.Comment
 import com.example.retrofit.model.Post
 import com.example.retrofit.service.RetrofitClient
 
@@ -42,9 +41,9 @@ class PostRepository {
         }
     }
 
-    suspend fun updatePost(postId: Int, post: Post) : Post?{
+    suspend fun updatePost(id: Int, post: Post) : Post?{
         return try {
-            val response = apiService.updatePost(postId,post)
+            val response = apiService.updatePost(id,post)
             if(response.isSuccessful){
                 response.body()
             }else{
@@ -53,6 +52,18 @@ class PostRepository {
         }catch (e: Exception){
             null
         }
+    }
+
+    suspend fun deletePost(id : Int) : Boolean{
+           return try {
+               apiService.deletePost(id)
+               true
+
+           }catch (e : Exception){
+               false
+           }
+
+
     }
 
 }
